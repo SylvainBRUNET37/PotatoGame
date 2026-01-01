@@ -17,6 +17,9 @@ class POTATOGAME_API APotatoEaterCharacter : public APotatoBaseCharacter
 
 public:
 	APotatoEaterCharacter();
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+	UPotatoPickUpComponent* PotatoPickUpComponent = nullptr;
 
 protected:
 	virtual void BeginPlay() override;

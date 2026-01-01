@@ -16,13 +16,8 @@ void UPotatoPlantingComponent::InitializeComponent()
 	// Enregistrer UPotatoPlantingComponent::OnSetupPlayerInput sur l'évènement 
 	// APotatoBaseCharacter::OnSetupPlayerInput du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner))) [[likely]]
-	{
+	if (ensure(IsValid(Owner)))
 		Owner->OnSetupPlayerInput.AddUObject(this, &UPotatoPlantingComponent::OnSetupPlayerInput);
-		
-		if (ensure(IsValid(Owner->InputComponent)))
-			OnSetupPlayerInput(Owner->InputComponent);
-	}
 }
 
 void UPotatoPlantingComponent::UninitializeComponent()
@@ -32,7 +27,7 @@ void UPotatoPlantingComponent::UninitializeComponent()
 	// Désenregistrer UPotatoPlantingComponent::OnSetupPlayerInput de 
 	// l'évènement APotatoBaseCharacter::OnSetupPlayerInput du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner))) [[likely]]
+	if (ensure(IsValid(Owner)))
 		Owner->OnSetupPlayerInput.RemoveAll(this);
 }
 
@@ -46,10 +41,10 @@ void UPotatoPlantingComponent::PlantPotato()
 {
 	// Récuperer le socket SpawnSocketName sur le modèle
 	const APotatoBaseCharacter* Character = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Character))) [[likely]]
+	if (ensure(IsValid(Character)))
 	{
 		const USkeletalMeshComponent* MeshComponent = Character->GetMesh();
-		if (ensure(IsValid(MeshComponent)) && ensure(MeshComponent->DoesSocketExist(SpawnSocketName))) [[likely]]
+		if (ensure(IsValid(MeshComponent)) && ensure(MeshComponent->DoesSocketExist(SpawnSocketName)))
 		{
 			// Obtienir la world transform du socket
 			FVector SocketLocation;
@@ -60,8 +55,8 @@ void UPotatoPlantingComponent::PlantPotato()
 			SocketRotation = UKismetMathLibrary::RandomRotator(true);
 			
 			// Déterminer une vélocité aléatoire dans un cône face au personnage d'une magnitude SpawnVelocity
-			SocketLocation += (UKismetMathLibrary::RandomUnitVectorInConeInDegrees(
-					Character->GetActorForwardVector(), 45.0f) * SpawnVelocity);
+			SocketLocation += UKismetMathLibrary::RandomUnitVectorInConeInDegrees(
+					Character->GetActorForwardVector(), 45.0f) * SpawnVelocity;
 			
 			// Instancier un actor Potato de type PotatoType à la transform et vélocité calculée
 			GetWorld()->SpawnActor<APotato>(

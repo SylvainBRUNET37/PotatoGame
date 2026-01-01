@@ -1,12 +1,14 @@
 #include "PotatoEaterCharacter.h"
 
+#include "Components/PotatoPickUpComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 #include "Net/UnrealNetwork.h"
 
 APotatoEaterCharacter::APotatoEaterCharacter()
 {
-
+	PotatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
+	PotatoPickUpComponent->SetupAttachment(RootComponent);
 }
 
 void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const

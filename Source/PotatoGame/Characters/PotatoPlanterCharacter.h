@@ -19,4 +19,7 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
 	UPotatoPlantingComponent* PotatoPlantingComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+	UPotatoPickUpComponent* PotatoPickUpComponent = nullptr;
 };
