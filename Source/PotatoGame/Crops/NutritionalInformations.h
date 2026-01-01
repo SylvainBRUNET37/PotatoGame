@@ -4,7 +4,7 @@
 #include "NutritionalInformations.generated.h"
 
 USTRUCT()
-struct FNutritionalInformations
+struct POTATOGAME_API FNutritionalInformations
 {
 	GENERATED_BODY()
 	

@@ -16,7 +16,7 @@ class POTATOGAME_API APotatoPlanterCharacter : public APotatoBaseCharacter
 
 public:
 	APotatoPlanterCharacter();
-
-private:
-
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+	UPotatoPlantingComponent* PotatoPlantingComponent;
 };

@@ -5,9 +5,8 @@
 #include "Potato.generated.h"
 
 UCLASS()
-class APotato : public AActor
+class POTATOGAME_API APotato : public AActor
 {
-public:
 	GENERATED_BODY()
 	
 private:

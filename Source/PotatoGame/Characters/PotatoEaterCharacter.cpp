@@ -18,6 +18,7 @@ void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty
 void APotatoEaterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	_springArmComponent = FindComponentByClass<USpringArmComponent>();
 	_initialSpringArmLenght = _springArmComponent->TargetArmLength;
 }
