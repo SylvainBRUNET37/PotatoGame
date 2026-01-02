@@ -14,7 +14,7 @@ void UPotatoPickUpComponent::InitializeComponent()
 	
 	// Enregistrer UPotatoPickUpComponent::OnSetupPlayerInput sur l'évènement APotatoBaseCharacter::OnSetupPlayerInput du owner
 	// Enregistrer UPotatoPickUpComponent::OnOwnerOverlap sur l'évènement  APotatoBaseCharacter::OnActorBeginOverlap du owner
-	// Enregistrer UPotatoPickUpComponent::OnOwnerHit sur l'évènement  APotatoBaseCharacter::OnActorHit du owner
+	// Enregistrer UPotatoPickUpComponent::OnOwnerHwwwit sur l'évènement  APotatoBaseCharacter::OnActorHit du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(Owner)))
 	{	
@@ -63,7 +63,7 @@ void UPotatoPickUpComponent::OnOwnerHit(AActor*, AActor* OtherActor, FVector, co
 void UPotatoPickUpComponent::PickupPotato(APotato* Potato)
 {
 	// Si IsHoldingPotato() est faux, alors invoquer SetHeldPotato(potato)
-	if (IsHoldingPotato())
+	if (!IsHoldingPotato())
 		SetHeldPotato(Potato);
 }
 
@@ -119,13 +119,14 @@ void UPotatoPickUpComponent::SetHeldPotato(APotato* Potato)
 	// Si previous est défini, activer physique + collision sur previous et détacher previous du socket heldSocketName
 	if (IsValid(PreviousPotato))
 	{
-		UPrimitiveComponent* PreviousPotatoPrimitiveComponent = 
-			Cast<UPrimitiveComponent>(HeldPotato->GetRootComponent());
-		
-		PreviousPotato->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		
-		PreviousPotatoPrimitiveComponent->SetSimulatePhysics(false);
-		PreviousPotatoPrimitiveComponent->SetEnableGravity(false);
-		PreviousPotatoPrimitiveComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		UPrimitiveComponent* TargetComponent = Cast<UPrimitiveComponent>(PreviousPotato->GetRootComponent());
+
+		FDetachmentTransformRules DetachementRules = FDetachmentTransformRules::KeepWorldTransform;
+		DetachementRules.ScaleRule = EDetachmentRule::KeepRelative;
+		PreviousPotato->DetachFromActor(DetachementRules);
+
+		TargetComponent->SetSimulatePhysics(true);
+		TargetComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		TargetComponent->SetEnableGravity(true);
 	}
 }
