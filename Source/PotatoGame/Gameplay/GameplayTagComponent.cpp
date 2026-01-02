@@ -79,7 +79,6 @@ void UGameplayTagComponent::Authority_AddTag(FGameplayTag tag)
 		if (_abilitySystemComponent.IsValid())
 		{
 			_abilitySystemComponent->AddLooseGameplayTag(tag);
-			_abilitySystemComponent->AddReplicatedLooseGameplayTag(tag);
 		}
 		else
 		{
@@ -125,7 +124,6 @@ void UGameplayTagComponent::Authority_RemoveTag(FGameplayTag tag)
 		if (_abilitySystemComponent.IsValid())
 		{
 			_abilitySystemComponent->RemoveLooseGameplayTag(tag);
-			_abilitySystemComponent->RemoveReplicatedLooseGameplayTag(tag);
 		}
 		else
 		{

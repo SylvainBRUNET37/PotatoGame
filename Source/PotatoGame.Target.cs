@@ -8,9 +8,9 @@ public class PotatoGameTarget : TargetRules
 	public PotatoGameTarget(TargetInfo Target) : base(Target)
 	{
         Type = TargetType.Game;
-        DefaultBuildSettings = BuildSettingsVersion.V5;
+        DefaultBuildSettings = BuildSettingsVersion.V6;
         bOverrideBuildEnvironment = true;
-        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_7;
         ExtraModuleNames.Add("PotatoGame");
     }
 }
