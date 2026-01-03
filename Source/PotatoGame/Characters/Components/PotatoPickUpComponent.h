@@ -12,6 +12,9 @@ class UPotatoPickUpComponent : public USceneComponent
 public:
 	UPotatoPickUpComponent();
 	
+	[[nodiscard]] bool IsHoldingPotato() const;
+	APotato* GetAndDropPotato();
+	
 protected:
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
@@ -31,7 +34,6 @@ private:
 	
 	void OnSetupPlayerInput(UInputComponent* InputComponent);
 	void PickupPotato(APotato* Potato);
-	void DropPotato();
-	bool IsHoldingPotato() const;
 	void SetHeldPotato(APotato* Potato);
+	void DropPotato();
 };

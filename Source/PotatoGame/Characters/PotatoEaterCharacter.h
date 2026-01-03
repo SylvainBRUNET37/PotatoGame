@@ -20,6 +20,9 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
 	UPotatoPickUpComponent* PotatoPickUpComponent = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+	UPotatoEatingComponent* PotatoEatingComponent = nullptr;
 
 protected:
 	virtual void BeginPlay() override;

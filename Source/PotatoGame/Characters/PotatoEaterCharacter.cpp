@@ -1,5 +1,6 @@
 #include "PotatoEaterCharacter.h"
 
+#include "Components/PotatoEatingComponent.h"
 #include "Components/PotatoPickUpComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -9,6 +10,9 @@ APotatoEaterCharacter::APotatoEaterCharacter()
 {
 	PotatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
 	PotatoPickUpComponent->SetupAttachment(RootComponent);
+	
+	PotatoEatingComponent = CreateDefaultSubobject<UPotatoEatingComponent>(TEXT("PotatoEatingComponent"));
+	PotatoEatingComponent->SetupAttachment(RootComponent);
 }
 
 void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const

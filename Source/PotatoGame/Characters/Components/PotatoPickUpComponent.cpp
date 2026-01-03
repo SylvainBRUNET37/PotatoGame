@@ -80,6 +80,15 @@ bool UPotatoPickUpComponent::IsHoldingPotato() const
 	return IsValid(HeldPotato);
 }
 
+APotato* UPotatoPickUpComponent::GetAndDropPotato()
+{
+	APotato* DroppedPotato = HeldPotato;
+	
+	DropPotato();
+	
+	return DroppedPotato;
+}
+
 void UPotatoPickUpComponent::SetHeldPotato(APotato* Potato)
 {
 	// Définir previous = HeldPotato

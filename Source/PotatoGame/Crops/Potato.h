@@ -9,6 +9,12 @@ class POTATOGAME_API APotato : public AActor
 {
 	GENERATED_BODY()
 	
+public:
+	[[nodiscard]] const FNutritionalInformations& GetNutritionalInformations() const
+	{
+		return NutritionalInformations;
+	}
+	
 private:
 	UPROPERTY(EditAnywhere)
 	float Weight;
