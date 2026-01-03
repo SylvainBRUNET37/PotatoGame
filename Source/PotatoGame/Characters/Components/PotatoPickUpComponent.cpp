@@ -16,12 +16,14 @@ void UPotatoPickUpComponent::InitializeComponent()
 	// Enregistrer UPotatoPickUpComponent::OnOwnerOverlap sur l'évènement  APotatoBaseCharacter::OnActorBeginOverlap du owner
 	// Enregistrer UPotatoPickUpComponent::OnOwnerHwwwit sur l'évènement  APotatoBaseCharacter::OnActorHit du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner)))
+	if (not ensure(IsValid(Owner)))
 	{	
-		Owner->OnSetupPlayerInput.AddUObject(this, &UPotatoPickUpComponent::OnSetupPlayerInput);
-		Owner->OnActorBeginOverlap.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
-		Owner->OnActorHit.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
+		return;
 	}
+	
+	Owner->OnSetupPlayerInput.AddUObject(this, &UPotatoPickUpComponent::OnSetupPlayerInput);
+	Owner->OnActorBeginOverlap.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
+	Owner->OnActorHit.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
 }
 
 void UPotatoPickUpComponent::UninitializeComponent()
@@ -32,12 +34,14 @@ void UPotatoPickUpComponent::UninitializeComponent()
 	// Désenregistrer UPotatoPickUpComponent::OnOwnerOverlap sur l'évènement  APotatoBaseCharacter::OnActorBeginOverlap du owner
 	// Désenregistrer UPotatoPickUpComponent::OnOwnerHit sur l'évènement  APotatoBaseCharacter::OnActorHit du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner)))
+	if (not ensure(IsValid(Owner)))
 	{
-		Owner->OnActorBeginOverlap.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
-		Owner->OnActorHit.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
-		Owner->OnSetupPlayerInput.RemoveAll(this);
+		return;
 	}
+	
+	Owner->OnActorBeginOverlap.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
+	Owner->OnActorHit.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
+	Owner->OnSetupPlayerInput.RemoveAll(this);
 }
 
 void UPotatoPickUpComponent::OnSetupPlayerInput(UInputComponent* InputComponent)
@@ -50,28 +54,36 @@ void UPotatoPickUpComponent::OnOwnerOverlap(AActor*, AActor* OtherActor)
 {
 	// Si OtherActor est un APotato, invoquer PickupPotato()
 	if (OtherActor->IsA<APotato>())
+	{
 		PickupPotato(Cast<APotato>(OtherActor));
+	}
 }
 
 void UPotatoPickUpComponent::OnOwnerHit(AActor*, AActor* OtherActor, FVector, const FHitResult&)
 {
 	// Si OtherActor est un APotato, invoquer PickupPotato()
 	if (OtherActor->IsA<APotato>())
+	{
 		PickupPotato(Cast<APotato>(OtherActor));
+	}
 }
 
 void UPotatoPickUpComponent::PickupPotato(APotato* Potato)
 {
 	// Si IsHoldingPotato() est faux, alors invoquer SetHeldPotato(potato)
 	if (!IsHoldingPotato())
+	{
 		SetHeldPotato(Potato);
+	}
 }
 
 void UPotatoPickUpComponent::DropPotato()
 {
 	// Si IsHoldingPotato() est vrai, alors invoquer SetHeldPotato(null)
 	if (IsHoldingPotato())
+	{
 		SetHeldPotato(nullptr);
+	}
 }
 
 bool UPotatoPickUpComponent::IsHoldingPotato() const
@@ -126,16 +138,21 @@ void UPotatoPickUpComponent::SetHeldPotato(APotato* Potato)
 	}
 	
 	// Si previous est défini, activer physique + collision sur previous et détacher previous du socket heldSocketName
-	if (IsValid(PreviousPotato))
+	if (not IsValid(PreviousPotato))
 	{
-		UPrimitiveComponent* TargetComponent = Cast<UPrimitiveComponent>(PreviousPotato->GetRootComponent());
-
-		FDetachmentTransformRules DetachementRules = FDetachmentTransformRules::KeepWorldTransform;
-		DetachementRules.ScaleRule = EDetachmentRule::KeepRelative;
-		PreviousPotato->DetachFromActor(DetachementRules);
-
-		TargetComponent->SetSimulatePhysics(true);
-		TargetComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		TargetComponent->SetEnableGravity(true);
+		return;
 	}
+	
+	UPrimitiveComponent* TargetComponent = Cast<UPrimitiveComponent>(PreviousPotato->GetRootComponent());
+	ensure(TargetComponent);
+
+	// Detach the potato from the character
+	FDetachmentTransformRules DetachementRules = FDetachmentTransformRules::KeepWorldTransform;
+	DetachementRules.ScaleRule = EDetachmentRule::KeepRelative;
+	PreviousPotato->DetachFromActor(DetachementRules);
+
+	// Enable physics and collision on the potato
+	TargetComponent->SetSimulatePhysics(true);
+	TargetComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	TargetComponent->SetEnableGravity(true);
 }

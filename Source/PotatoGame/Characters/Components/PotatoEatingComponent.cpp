@@ -16,10 +16,10 @@ void UPotatoEatingComponent::InitializeComponent()
 	// Enregistrer UPotatoEatingComponent::OnSetupPlayerInput sur 
 	// l'évènement APotatoBaseCharacter::OnSetupPlayerInput du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner)))
-	{	
-		Owner->OnSetupPlayerInput.AddUObject(this, &UPotatoEatingComponent::OnSetupPlayerInput);
-	}
+	if (not ensure(IsValid(Owner)))
+		return;
+	
+	Owner->OnSetupPlayerInput.AddUObject(this, &UPotatoEatingComponent::OnSetupPlayerInput);
 }
 
 void UPotatoEatingComponent::UninitializeComponent()
@@ -29,10 +29,12 @@ void UPotatoEatingComponent::UninitializeComponent()
 	// Désenregistrer UPotatoEatingComponent::OnSetupPlayerInput de 
 	// l'évènement APotatoBaseCharacter::OnSetupPlayerInput du owner
 	APotatoBaseCharacter* Owner = Cast<APotatoBaseCharacter>(GetOwner());
-	if (ensure(IsValid(Owner)))
-	{	
-		Owner->OnSetupPlayerInput.RemoveAll(this);
+	if (not ensure(IsValid(Owner)))
+	{
+		return;
 	}
+	
+	Owner->OnSetupPlayerInput.RemoveAll(this);
 }
 
 void UPotatoEatingComponent::OnSetupPlayerInput(UInputComponent* InputComponent)
